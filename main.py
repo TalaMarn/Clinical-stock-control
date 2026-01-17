@@ -1,9 +1,25 @@
 import pandas as pd
 import os
-
-df = pd.read_csv('stock.csv')
+os.system('clear')
+print('welcome to stock control system')
+print('--------------------------------')
+print('Choose an option to proceed: ')
+print('1. Proceed to existing stock file')
+print('2. Create a new stock file')
+choice = input('Enter your choice (1 or 2): ')
+os.system('clear')
+if choice == '1':
+     df = pd.read_csv('stock.csv')
+elif choice == '2':
+     df = pd.DataFrame(columns=['Name','Quantity','Price'])
+     df.to_csv('stock.csv', index=False)
 def show_stock(): 
      print(df)
+
+def create_stock_file():
+     df = pd.DataFrame(columns=['Name','Quantity','Price'])
+     df.to_csv('user_stock.csv', index=False)
+     return df
 
 def add_new_item():
      item = input('Enter item name: ')
@@ -39,43 +55,53 @@ def check_low_stock(low=20):
 
 
 while True:
-     os.system('cls')
-     print('welcome to stock control system')
-     print('--------------------------------')
+
      print('1. Show Stock')
      print('2. Add New Item')
      print('3. Update Item Quantity')
      print('4. Remove Item')
      print('5. Check Low Stock')
-     print('6. Exit')
+     print('6. Create Stock File')
+     print('7. Save and Exit')
+     print('8. Exit')
 
-     choice = input('Enter your choice (1-6): ')
-     os.system('cls')
+     choice = input('Enter your choice (1-8): ')
+     os.system('clear')
      if choice == '1':
           show_stock()
           input('Press any key to continue....')
-          os.system('Cls')
+          os.system('clear')
      elif choice == '2':
           add_new_item()
           input('Press any key to continue....')
-          os.system('Cls')
+          os.system('clear')
      elif choice == '3':
           update_item()
           input('Press any key to continue....')
-          os.system('Cls')
+          os.system('clear')
      elif choice == '4':
           remove_item()
           input('Press any key to continue....')
-          os.system('Cls')
+          os.system('clear')
      elif choice == '5':
           check_low_stock()
           input('Press any key to continue....')
-          os.system('Cls')
+          os.system('clear')
      elif choice == '6':
+          create_stock_file()
+          print('Stock file created successfully')
+          input('Press any key to continue....')
+          os.system('clear')
+     elif choice == '7':
+          df.to_csv('stock.csv', index=False)
           print('Exiting the system. Goodbye!')
-          os.system('Cls')
+          os.system('clear')
+          break
+     elif choice == '8':
+          print('Exiting without saving. Goodbye!')
+          os.system('clear')
           break
      else:
           print('Invalid choice. Please try again.')
           input('Press any key to continue....')
-          os.system('Cls')
+          os.system('clear')
