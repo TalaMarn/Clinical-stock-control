@@ -1,17 +1,18 @@
 import pandas as pd
 import os
 
-df = pd.DataFrame({'Name': ['Gloves','Masks','Needles','Alcohol_Swabs','IV_Cannulas','Dressing','Thermometers','Blood_Pressure','Paracetamol','Antibiotics','IV_fluids'],
-     'quantity': [100,200,20,30,40,150,5,20,70,120,200]})
-
+df = pd.read_csv('stock.csv')
 def show_stock(): 
      print(df)
 
 def add_new_item():
      item = input('Enter item name: ')
+     if item in df['Name'].values:
+          print('Item already exists')
+          return df
      qty = int(input('Enter quantity: '))
-     df.loc[len(df)] = [item,qty]
-
+     price = float(input('Enter price: '))
+     df.loc[len(df)] = [item,qty,price]
      print(f"{item} added successfully")
      return df
 
@@ -19,7 +20,7 @@ def update_item():
      item = input("Enter item name to update: ")
      if item in df['Name'].values:
           qty = int(input("Enter a new quantity: "))
-          df.loc[df['Name']==item, 'quantity'] = qty
+          df.loc[df['Name']==item, 'Quantity'] = qty
           print(f"{item} updated to {qty}")
      else:
           print("Item not found")
@@ -34,11 +35,11 @@ def remove_item():
 
 def check_low_stock(low=20):
      print('These stock are low in quantity: ')
-     print(df[df['quantity'] <= low])
+     print(df[df['Quantity'] <= low])
 
 
 while True:
-     os.system('clear')
+     os.system('cls')
      print('welcome to stock control system')
      print('--------------------------------')
      print('1. Show Stock')
@@ -49,32 +50,32 @@ while True:
      print('6. Exit')
 
      choice = input('Enter your choice (1-6): ')
-     os.system('clear')
+     os.system('cls')
      if choice == '1':
           show_stock()
           input('Press any key to continue....')
-          os.system('Clear')
+          os.system('Cls')
      elif choice == '2':
           add_new_item()
           input('Press any key to continue....')
-          os.system('Clear')
+          os.system('Cls')
      elif choice == '3':
           update_item()
           input('Press any key to continue....')
-          os.system('Clear')
+          os.system('Cls')
      elif choice == '4':
           remove_item()
           input('Press any key to continue....')
-          os.system('Clear')
+          os.system('Cls')
      elif choice == '5':
           check_low_stock()
           input('Press any key to continue....')
-          os.system('Clear')
+          os.system('Cls')
      elif choice == '6':
           print('Exiting the system. Goodbye!')
-          os.system('Clear')
+          os.system('Cls')
           break
      else:
           print('Invalid choice. Please try again.')
           input('Press any key to continue....')
-          os.system('Clear')
+          os.system('Cls')
