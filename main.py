@@ -27,8 +27,10 @@ def update_item():
      item = input("Enter item name to update: ")
      if item in df['Name'].values:
           qty = int(input("Enter a new quantity: "))
+          price = float(input("Enter a new price: "))
+          df.loc[df['Name']==item, 'Price'] = price
           df.loc[df['Name']==item, 'Quantity'] = qty
-          print(f"{item} updated to {qty}")
+          print(f"{item} updated to {qty} with price {price}")
      else:
           print("Item not found")
 
@@ -44,8 +46,30 @@ def check_low_stock(low=20):
      print('These stock are low in quantity: ')
      print(df[df['Quantity'] <= low])
 
+#---------------------------Functions End Here---------------------------#
+
+#---------------------------Login Interface---------------------------#
 print('welcome to stock control system')
 print('--------------------------------')
+user = 'admin'
+pwd = 'password123'
+attempts = 3
+username = input('Enter username: ')
+password = input('Enter password: ')
+while (username != user or password != pwd) and attempts > 1:
+     attempts -= 1
+     print(f'Incorrect credentials. You have {attempts} attempts left.')
+     username = input('Enter username: ')
+     password = input('Enter password: ')
+if username != user or password != pwd:
+     print('Too many incorrect attempts. Exiting the system.')
+     exit()
+clean_screen()
+print('Login successful!')
+input('Press Enter key to continue....')
+
+#---------------------------Main Program---------------------------#
+clean_screen()
 print('Choose an option to proceed: ')
 print('1. Proceed to existing stock file')
 print('2. Create a new stock file')
@@ -54,8 +78,11 @@ clean_screen()
 if choice == '1':
      df = pd.read_csv('stock.csv')
 elif choice == '2':
-     df = pd.DataFrame(columns=['Name','Quantity','Price'])
-     df.to_csv('stock.csv', index=False)
+     df = create_stock_file()
+     print('New stock file created successfully')
+else:
+     print('Invalid choice. Exiting the system.')
+     exit()
 
 while True:
 
@@ -71,28 +98,28 @@ while True:
      choice = input('Enter your choice (1-8): ')
      if choice == '1':
           show_stock()
-          input('Press any key to continue....')
+          input('Press Enter key to continue....')
           clean_screen()
      elif choice == '2':
           add_new_item()
-          input('Press any key to continue....')
+          input('Press Enter key to continue....')
           clean_screen()
      elif choice == '3':
           update_item()
-          input('Press any key to continue....')
+          input('Press Enter key to continue....')
           clean_screen()
      elif choice == '4':
           remove_item()
-          input('Press any key to continue....')
+          input('Press Enter key to continue....')
           clean_screen()
      elif choice == '5':
           check_low_stock()
-          input('Press any key to continue....')
+          input('Press Enter key to continue....')
           clean_screen()
      elif choice == '6':
           create_stock_file()
           print('Stock file created successfully')
-          input('Press any key to continue....')
+          input('Press Enter key to continue....')
           clean_screen()
      elif choice == '7':
           df.to_csv('stock.csv', index=False)
@@ -105,5 +132,5 @@ while True:
           break
      else:
           print('Invalid choice. Please try again.')
-          input('Press any key to continue....')
+          input('Press Enter key to continue....')
           clean_screen()
