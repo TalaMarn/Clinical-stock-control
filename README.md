@@ -1,8 +1,7 @@
 # Clinical-stock-control
 Only for class lesson
 
-# What Ma Theint Need to do.....
+# Distributors
+Tala Marn - [Facebook](https://www.facebook.com/M.Tala.Marn/)
 
-Done
-
-finish
+Mi Theint Thu

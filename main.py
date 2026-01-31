@@ -76,7 +76,7 @@ print('2. Create a new stock file')
 choice = input('Enter your choice (1 or 2): ')
 clean_screen()
 if choice == '1':
-     df = pd.read_csv('stock.csv')
+     df = pd.read_csv('../stock.csv')
 elif choice == '2':
      df = create_stock_file()
      print('New stock file created successfully')
