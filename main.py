@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import subprocess
+import pwinput
 
 class StockControlSystem:
 
@@ -11,12 +12,12 @@ class StockControlSystem:
           self.__pwd = 'password123'
           attempts = 3
           username = input('Enter username: ')
-          password = input('Enter password: ')
+          password = pwinput.pwinput(prompt='Enter password: ', mask='*')
           while (username != self.__user or password != self.__pwd) and attempts > 1:
                attempts -= 1
                print(f'Incorrect credentials. You have {attempts} attempts left.')
                username = input('Enter username: ')
-               password = input('Enter password: ')
+               password = pwinput.pwinput(prompt='Enter password: ', mask='*')
           if username != self.__user or password != self.__pwd:
                print('Too many incorrect attempts. Exiting the system.')
                exit()
@@ -87,18 +88,23 @@ print('1. Proceed to existing stock file')
 print('2. Create a new stock file')
 choice = input('Enter your choice (1 or 2): ')
 scs.clean_screen()
+try:
+     if choice not in ['1', '2']:
+          raise ValueError('Invalid choice')
+except ValueError:
+     print('Invalid choice. Please restart the program and try again.')
+     exit()
+
 if choice == '1':
      try:
           df = pd.read_csv('stock.csv')
      except FileNotFoundError:
           print('No existing stock file found. Please create a new stock file.')
+          exit()
      df = pd.read_csv('stock.csv')
 elif choice == '2':
      df = scs.create_stock_file()
      print('New stock file created successfully')
-else:
-     print('Invalid choice. Exiting the system.')
-     exit()
 
 while True:
      scs.clean_screen()
@@ -110,7 +116,7 @@ while True:
      print('6. Save and Exit')
      print('7. Exit')
 
-     choice = input('Enter your choice (1-8): ')
+     choice = input('Enter your choice (1-7): ')
      if choice == '1':
           scs.show_stock()
           input('Press Enter key to continue....')
@@ -134,6 +140,9 @@ while True:
           print('Exiting without saving. Goodbye!')
           break
      else:
-          print('Invalid choice. Please try again.')
-          input('Press Enter key to continue....')
+          try:
+               raise ValueError('Invalid choice')
+          except ValueError:
+               print('Invalid choice. Please try again.')
+               input('Press Enter key to continue....')
 scs.clean_screen()
