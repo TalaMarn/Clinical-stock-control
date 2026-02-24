@@ -6,6 +6,22 @@ class StockControlSystem:
 
 #---------------------------Functions Start Here---------------------------#
 
+     def verify_login(self):
+          self.__user = 'admin'
+          self.__pwd = 'password123'
+          attempts = 3
+          username = input('Enter username: ')
+          password = input('Enter password: ')
+          while (username != self.__user or password != self.__pwd) and attempts > 1:
+               attempts -= 1
+               print(f'Incorrect credentials. You have {attempts} attempts left.')
+               username = input('Enter username: ')
+               password = input('Enter password: ')
+          if username != self.__user or password != self.__pwd:
+               print('Too many incorrect attempts. Exiting the system.')
+               exit()
+
+     
      def clean_screen(self):
           # system() is deprecated; use subprocess instead
           command = 'cls' if os.name == 'nt' else 'clear'
@@ -49,7 +65,7 @@ class StockControlSystem:
           else:
                print("Item not found")
 
-     def check_low_stock(low=20):
+     def check_low_stock(self,low=20):
           print('These stock are low in quantity: ')
           print(df[df['Quantity'] <= low])
 
@@ -59,19 +75,7 @@ class StockControlSystem:
 print('welcome to stock control system')
 print('--------------------------------')
 scs = StockControlSystem()
-user = 'admin'
-pwd = 'password123'
-attempts = 3
-username = input('Enter username: ')
-password = input('Enter password: ')
-while (username != user or password != pwd) and attempts > 1:
-     attempts -= 1
-     print(f'Incorrect credentials. You have {attempts} attempts left.')
-     username = input('Enter username: ')
-     password = input('Enter password: ')
-if username != user or password != pwd:
-     print('Too many incorrect attempts. Exiting the system.')
-     exit()
+scs.verify_login()
 scs.clean_screen()
 print('Login successful!')
 input('Press Enter key to continue....')
@@ -84,6 +88,10 @@ print('2. Create a new stock file')
 choice = input('Enter your choice (1 or 2): ')
 scs.clean_screen()
 if choice == '1':
+     try:
+          df = pd.read_csv('stock.csv')
+     except FileNotFoundError:
+          print('No existing stock file found. Please create a new stock file.')
      df = pd.read_csv('stock.csv')
 elif choice == '2':
      df = scs.create_stock_file()
@@ -99,39 +107,30 @@ while True:
      print('3. Update Item Quantity')
      print('4. Remove Item')
      print('5. Check Low Stock')
-     print('6. Create Stock File')
-     print('7. Save and Exit')
-     print('8. Exit')
+     print('6. Save and Exit')
+     print('7. Exit')
 
      choice = input('Enter your choice (1-8): ')
      if choice == '1':
           scs.show_stock()
           input('Press Enter key to continue....')
-          
      elif choice == '2':
           scs.add_new_item()
           input('Press Enter key to continue....')
-          
      elif choice == '3':
           scs.update_item()
           input('Press Enter key to continue....')
-          
      elif choice == '4':
           scs.remove_item()
           input('Press Enter key to continue....')
-          
      elif choice == '5':
           scs.check_low_stock()
           input('Press Enter key to continue....')
      elif choice == '6':
-          df = scs.create_stock_file()
-          print('Stock file created successfully')
-          input('Press Enter key to continue....')
-     elif choice == '7':
           df.to_csv('stock.csv', index=False)
           print('Exiting the system. Goodbye!')
           break
-     elif choice == '8':
+     elif choice == '7':
           print('Exiting without saving. Goodbye!')
           break
      else:
